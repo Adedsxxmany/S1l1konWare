@@ -1,0 +1,79 @@
+-- credit to @S1l1konWarescripts
+
+-- LocalScript
+-- Put this in StarterPlayer > StarterPlayerScripts
+
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+
+-- Settings
+local specialUsername = "ITS_CHRISTYCOOKIET"
+
+-- Function to outline and title them
+local function highlightAndTitle(player)
+    if player.Name == specialUsername then
+        -- Send notification
+        StarterGui:SetCore("SendNotification", {
+            Title = "Script onwer join your server",
+            Text = "don't share my username,  script onwer username is ITS_CHRISTYCOOKIET",
+            Button1 = "ok",
+            Button2 = "cool",
+            Duration = 30
+        })
+
+        -- Wait for their character
+        player.CharacterAdded:Connect(function(character)
+            -- Give Billboard GUI title
+            local billboard = Instance.new("BillboardGui")
+            billboard.Size = UDim2.new(0, 200, 0, 50)
+            billboard.StudsOffset = Vector3.new(0, 3, 0)
+            billboard.AlwaysOnTop = true
+            billboard.Parent = character:WaitForChild("Head")
+
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.BackgroundTransparency = 1
+            textLabel.Text = "👑Script onwer👑"
+            textLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
+            textLabel.TextScaled = true
+            textLabel.Parent = billboard
+
+            -- Outline with Highlight
+            local highlight = Instance.new("Highlight")
+            highlight.FillTransparency = 1
+            highlight.OutlineColor = Color3.fromRGB(255, 255, 0)
+            highlight.OutlineTransparency = 0
+            highlight.Parent = character
+        end)
+    end
+end
+
+-- Check for existing players
+for _, player in ipairs(Players:GetPlayers()) do
+    highlightAndTitle(player)
+end
+
+-- Check for new players joining
+Players.PlayerAdded:Connect(highlightAndTitle)
+
+-- LocalScript
+-- Put this in StarterPlayer > StarterPlayerScripts
+
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- List of GUI names to enable
+local guiNames = {
+    "AdminCharacterSelection",
+    "CustomSkinsCharacterSelection",
+    "FreeVIPCharacterSelection"
+}
+
+for _, guiName in ipairs(guiNames) do
+    local gui = playerGui:FindFirstChild(guiName)
+    if gui and gui:IsA("ScreenGui") then
+        gui.Enabled = true
+    else
+        warn(guiName .. " not found or is not a ScreenGui.")
+    end
+end
